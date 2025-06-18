@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeoApp Official Launch Countdown</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <img src="neocloud-logo.png" alt="NeoCloud Logo" class="logo">
+        <h1>NeoApp Official Launch</h1>
+        <p class="subtitle">Join us for the grand launch of NeoApp!</p>
+        <div id="countdown">
+            <div><span id="days">00</span><span>Days</span></div>
+            <div><span id="hours">00</span><span>Hours</span></div>
+            <div><span id="minutes">00</span><span>Minutes</span></div>
+            <div><span id="seconds">00</span><span>Seconds</span></div>
+        </div>
+        <form id="register-form">
+            <h2>Register for the Event</h2>
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <button type="submit">Register</button>
+            <p id="form-message"></p>
+        </form>
+    </div>
+    <script>
+        // Set the date for the launch (YYYY-MM-DDTHH:MM:SSZ)
+        const launchDate = new Date('2025-07-01T12:00:00Z');
+        function updateCountdown() {
+            const now = new Date();
+            const diff = launchDate - now;
+            if (diff <= 0) {
+                document.getElementById('countdown').innerHTML = '<span>Launched!</span>';
+                return;
+            }
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / (1000 * 60)) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+            document.getElementById('days').textContent = String(days).padStart(2, '0');
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Form submission
+        document.getElementById('register-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const form = e.target;
+            const data = {
+                name: form.name.value,
+                email: form.email.value
+            };
+            document.getElementById('form-message').textContent = 'Submitting...';
+            try {
+                // Replace with your API Gateway endpoint after deployment
+                const response = await fetch('https://xvhu3wgaa6.execute-api.us-east-1.amazonaws.com/prod/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                if (response.ok) {
+                    document.getElementById('form-message').textContent = 'Registration successful!';
+                    form.reset();
+                } else {
+                    document.getElementById('form-message').textContent = 'Submission failed. Try again.';
+                }
+            } catch (err) {
+                document.getElementById('form-message').textContent = 'Error submitting form.';
+            }
+        });
+    </script>
+</body>
+</html>

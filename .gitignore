@@ -1,0 +1,13 @@
+# Ignore Terraform local state and provider cache
+*.tfstate
+*.tfstate.backup
+.terraform/
+
+# Ignore Python cache and zip files (if Lambda code is present)
+__pycache__/
+*.zip
+
+# Ignore VSCode settings and system files
+.vscode/
+.DS_Store
+Thumbs.db
