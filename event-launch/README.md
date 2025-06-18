@@ -114,3 +114,6 @@ def lambda_handler(event, context):
 - Make sure SES is verified for the sender and recipient emails.
 - For production, consider using a custom SSL certificate in CloudFront.
 - Update the API endpoint in `index.html` after deploying your backend.
+
+## Credits
+Solomon and Wodis made this project.
